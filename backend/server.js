@@ -15,6 +15,11 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // Parse JSON payloads
 
+const authRoutes = require('./routes/authRoutes');
+
+// Use Routes
+app.use('/api/auth', authRoutes);
+
 // Basic route for testing
 app.get('/', (req, res) => {
     res.send('CodeCollab API is running...');
