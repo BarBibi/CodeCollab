@@ -16,9 +16,11 @@ app.use(cors());
 app.use(express.json()); // Parse JSON payloads
 
 const authRoutes = require('./routes/authRoutes');
+const postRoutes = require('./routes/postRoutes');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
