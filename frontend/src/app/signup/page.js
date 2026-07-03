@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function SignUpPage() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+    const [error, setError] = useState(null);
+    const { register } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -11,14 +14,19 @@ export default function SignUpPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement AuthContext register logic
-        console.log('SignUp Payload:', formData);
+        setError(null);
+        try {
+            await register(formData.username, formData.email, formData.password);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+        }
     };
 
     return (
-        <main>
+        <main style={{ maxWidth: '400px', margin: '0 auto' }}>
             <h2>Create an Account</h2>
-            <form onSubmit={handleSubmit}>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <input 
                     type="text" 
                     name="username" 

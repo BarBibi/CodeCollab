@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 export default function SignInPage() {
     const [formData, setFormData] = useState({ email: '', password: '' });
+    const [error, setError] = useState(null);
+    const { login } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -11,14 +14,19 @@ export default function SignInPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Implement AuthContext login logic
-        console.log('SignIn Payload:', formData);
+        setError(null);
+        try {
+            await login(formData.email, formData.password);
+        } catch (err) {
+            setError(err.response?.data?.message || 'Login failed. Please try again.');
+        }
     };
 
     return (
-        <main>
+        <main style={{ maxWidth: '400px', margin: '0 auto' }}>
             <h2>Sign In</h2>
-            <form onSubmit={handleSubmit}>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <input 
                     type="email" 
                     name="email" 
