@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import Link from 'next/link'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
 
 export default function Navbar() {
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext)
 
     return (
         <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', marginBottom: '2rem' }}>
@@ -29,5 +29,5 @@ export default function Navbar() {
                 )}
             </ul>
         </nav>
-    );
+    )
 }

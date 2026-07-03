@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-// import { io } from 'socket.io-client'; // To be implemented with SocketContext
+import { useEffect, useState } from 'react'
+// import { io } from 'socket.io-client' // To be implemented with SocketContext
 
 export default function ChatPage() {
-    const [messages, setMessages] = useState([]);
-    const [currentMessage, setCurrentMessage] = useState('');
+    const [messages, setMessages] = useState([])
+    const [currentMessage, setCurrentMessage] = useState('')
 
     useEffect(() => {
         // TODO: Initialize socket connection and listen for 'receive_message'
-    }, []);
+    }, [])
 
     const sendMessage = () => {
-        if (!currentMessage.trim()) return;
+        if (!currentMessage.trim()) return
         // TODO: Emit 'send_message' via socket
-        setCurrentMessage('');
-    };
+        setCurrentMessage('')
+    }
 
     return (
         <main>
@@ -37,5 +37,5 @@ export default function ChatPage() {
                 <button onClick={sendMessage}>Send</button>
             </div>
         </main>
-    );
+    )
 }

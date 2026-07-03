@@ -1,26 +1,26 @@
-'use client';
+'use client'
 
-import { useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useState, useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
 
 export default function SignInPage() {
-    const [formData, setFormData] = useState({ email: '', password: '' });
-    const [error, setError] = useState(null);
-    const { login } = useContext(AuthContext);
+    const [formData, setFormData] = useState({ email: '', password: '' })
+    const [error, setError] = useState(null)
+    const { login } = useContext(AuthContext)
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+        setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError(null);
+        e.preventDefault()
+        setError(null)
         try {
-            await login(formData.email, formData.password);
+            await login(formData.email, formData.password)
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please try again.');
+            setError(err.response?.data?.message || 'Login failed. Please try again.')
         }
-    };
+    }
 
     return (
         <main style={{ maxWidth: '400px', margin: '0 auto' }}>
@@ -46,5 +46,5 @@ export default function SignInPage() {
                 <button type="submit">Login</button>
             </form>
         </main>
-    );
+    )
 }

@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const {
     getPosts,
     createPost,
@@ -6,23 +6,23 @@ const {
     likePost,
     addComment,
     getComments
-} = require('../controllers/postController');
-const { protect } = require('../middlewares/authMiddleware');
+} = require('../controllers/postController')
+const { protect } = require('../middlewares/authMiddleware')
 
-const router = express.Router();
+const router = express.Router()
 
 router.route('/')
     .get(getPosts)
-    .post(protect, createPost);
+    .post(protect, createPost)
 
 router.route('/:id')
-    .delete(protect, deletePost);
+    .delete(protect, deletePost)
 
 router.route('/:id/like')
-    .put(protect, likePost);
+    .put(protect, likePost)
 
 router.route('/:id/comments')
     .get(getComments)
-    .post(protect, addComment);
+    .post(protect, addComment)
 
-module.exports = router;
+module.exports = router
