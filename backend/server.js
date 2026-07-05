@@ -29,11 +29,13 @@ app.use(express.json()) // Parse JSON payloads
 const authRoutes = require('./routes/authRoutes')
 const postRoutes = require('./routes/postRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const userRoutes = require('./routes/userRoutes')
 
 // Use Routes
 app.use('/api/auth', authRoutes)
 app.use('/api/posts', postRoutes)
 app.use('/api/messages', messageRoutes)
+app.use('/api/users', userRoutes)
 
 // Socket.io Events Logic
 io.on('connection', (socket) => {
