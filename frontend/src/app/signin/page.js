@@ -2,6 +2,7 @@
 
 import { useState, useContext } from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import styles from './signin.module.css'
 
 export default function SignInPage() {
     const [formData, setFormData] = useState({ email: '', password: '' })
@@ -23,10 +24,10 @@ export default function SignInPage() {
     }
 
     return (
-        <main style={{ maxWidth: '400px', margin: '0 auto' }}>
-            <h2>Sign In</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <main className={styles.page}>
+            <form onSubmit={handleSubmit} className={styles.form}>
+                <h2>Sign In</h2>
+                {error && <p className={styles.error}>{error}</p>}
                 <input 
                     type="email" 
                     name="email" 
