@@ -1,0 +1,175 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.title {
+  color: var(--text-primary);
+}
+
+.searchContainer {
+  margin-bottom: 2rem;
+}
+
+.searchForm {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  padding: 8px;
+  width: 300px;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.searchButton {
+  padding: 8px 16px;
+  cursor: pointer;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.searchResults {
+  list-style: none;
+  padding: 0;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  border-radius: 5px;
+}
+
+.searchResultItem {
+  padding: 10px;
+  border-bottom: 1px solid var(--secondary-border, #d1d5db);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-primary);
+}
+
+.messageButton {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.chatWindow {
+  border: 1px solid var(--secondary-border, #d1d5db);
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  background-color: var(--foreground);
+}
+
+.chatHeader {
+  padding: 10px;
+  background-color: var(--secondary-blue, #eff6ff);
+  border-bottom: 1px solid var(--secondary-border, #d1d5db);
+  color: var(--text-primary);
+}
+
+.closeButton {
+  float: right;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+}
+
+.messageList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  list-style: none;
+  margin: 0;
+}
+
+.messageItem {
+  margin-bottom: 10px;
+}
+
+.messageBubble {
+  padding: 8px 12px;
+  border-radius: 15px;
+  display: inline-block;
+}
+
+.myMessage {
+  text-align: right;
+}
+
+.myMessage .messageBubble {
+  background-color: var(--primary-blue);
+  color: #fff;
+}
+
+.otherMessage {
+  text-align: left;
+}
+
+.otherMessage .messageBubble {
+  background-color: var(--secondary-blue, #eff6ff);
+  color: var(--text-primary);
+}
+
+.messageForm {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid var(--secondary-border, #d1d5db);
+}
+
+.messageInput {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  border-radius: 4px;
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.sendButton {
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.error {
+  color: #ef4444;
+  margin-top: 10px;
+}
+
+[data-theme='dark'] .searchInput,
+[data-theme='dark'] .searchButton,
+[data-theme='dark'] .searchResults,
+[data-theme='dark'] .searchResultItem,
+[data-theme='dark'] .messageButton,
+[data-theme='dark'] .chatWindow,
+[data-theme='dark'] .chatHeader,
+[data-theme='dark'] .closeButton,
+[data-theme='dark'] .messageInput,
+[data-theme='dark'] .sendButton {
+    background-color: var(--foreground);
+    border-color: var(--secondary-border);
+    color: var(--text-primary);
+}
+
+[data-theme='dark'] .myMessage .messageBubble {
+    background-color: var(--primary-blue);
+    color: #fff;
+}
+
+[data-theme='dark'] .otherMessage .messageBubble {
+    background-color: #334155;
+    color: var(--text-primary);
+}

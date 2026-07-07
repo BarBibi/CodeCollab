@@ -1,21 +1,25 @@
 :root {
-  /* Light Theme Variables */
-  --bg-color: #ffffff;
-  --text-color: #1a1a1a;
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
-  --input-bg: #f3f4f6;
-  --border-color: #e5e7eb;
+  --background: #f0f4f8;
+  --foreground: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --primary-blue: #3b82f6;
+  --primary-blue-hover: #2563eb;
+  --secondary-blue: #eff6ff;
+  --secondary-blue-hover: #dbeafe;
+  --secondary-border: #d1d5db;
 }
 
 [data-theme='dark'] {
-  /* Dark Theme Variables */
-  --bg-color: #121212;
-  --text-color: #f3f4f6;
-  --primary-color: #3b82f6;
-  --primary-hover: #60a5fa;
-  --input-bg: #1f2937;
-  --border-color: #374151;
+  --background: #0b1120;
+  --foreground: #1e293b;
+  --text-primary: #f0f4f8;
+  --text-secondary: #94a3b8;
+  --primary-blue: #3b82f6;
+  --primary-blue-hover: #60a5fa;
+  --secondary-blue: #334155;
+  --secondary-blue-hover: #475569;
+  --secondary-border: #475569;
 }
 
 * {
@@ -25,16 +29,16 @@
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--background);
+  color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Global Elements Styling */
 input, textarea {
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  border: 1px solid var(--border-color);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+  border: 1px solid var(--secondary-border);
   padding: 0.75rem;
   border-radius: 6px;
   outline: none;
@@ -43,11 +47,11 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-  border-color: var(--primary-color);
+  border-color: var(--primary-blue);
 }
 
 button {
-  background-color: var(--primary-color);
+  background-color: var(--primary-blue);
   color: #ffffff;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -59,11 +63,11 @@ button {
 }
 
 button:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--primary-blue-hover);
 }
 
 a {
-  color: var(--primary-color);
+  color: var(--primary-blue);
   text-decoration: none;
 }
 

@@ -1,0 +1,40 @@
+.container {
+  border: 1px solid var(--secondary-border, #d1d5db);
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background-color: var(--foreground);
+}
+
+.title {
+  color: var(--text-primary);
+}
+
+.error {
+  color: #ef4444;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input,
+.form textarea {
+  padding: 8px;
+  border: 1px solid var(--secondary-border, #d1d5db);
+  background-color: var(--foreground);
+  color: var(--text-primary);
+}
+
+.form button {
+  padding: 10px;
+  border: none;
+  background-color: var(--primary-blue);
+  color: #fff;
+  cursor: pointer;
+}
+
+.form button:hover {
+    background-color: var(--primary-blue-hover);
+}

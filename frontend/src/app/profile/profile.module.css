@@ -1,0 +1,32 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.welcomeMessage {
+  color: var(--text-primary);
+}
+
+.postsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--secondary-border, #d1d5db);
+  padding-bottom: 0.5rem;
+}
+
+.error {
+  color: #ef4444;
+}
+
+.noPosts {
+  color: var(--text-secondary);
+}

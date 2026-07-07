@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import api from '../../services/api'
 import PostCreator from '../../components/PostCreator'
 import PostCard from '../../components/PostCard'
+import styles from './profile.module.css'
 
 export default function ProfilePage() {
     const { user, loading } = useContext(AuthContext)
@@ -36,25 +37,23 @@ export default function ProfilePage() {
     }, [user])
 
     const handlePostCreated = (newPost) => {
-        // Optimistically update the UI by prepending the new post
-        // Real-world scenarios might require a re-fetch to get populated fields (like username)
         setPosts([newPost, ...posts])
     }
 
     if (loading || !user) return <p>Loading...</p>
 
     return (
-        <main style={{ maxWidth: '800px', margin: '0 auto', padding: '0 15px' }}>
-            <h2>Welcome, {user.username}</h2>
+        <main className={styles.container}>
+            <h2 className={styles.welcomeMessage}>Welcome, {user.username}</h2>
             
             <PostCreator onPostCreated={handlePostCreated} />
 
-            <section>
-                <h3>Recent Posts</h3>
-                {fetchError && <p style={{ color: 'red' }}>{fetchError}</p>}
+            <section className={styles.postsSection}>
+                <h3 className={styles.sectionTitle}>Recent Posts</h3>
+                {fetchError && <p className={styles.error}>{fetchError}</p>}
                 
                 {posts.length === 0 && !fetchError ? (
-                    <p>No posts available. Be the first to post!</p>
+                    <p className={styles.noPosts}>No posts available. Be the first to post!</p>
                 ) : (
                     posts.map(post => (
                         <PostCard key={post._id} post={post} />

@@ -4,6 +4,7 @@ import { useEffect, useState, useContext } from 'react'
 import { io } from 'socket.io-client'
 import api from '../../services/api'
 import { AuthContext } from '../../context/AuthContext'
+import styles from './chat.module.css'
 
 let socket
 
@@ -15,6 +16,7 @@ export default function ChatPage() {
     const [content, setContent] = useState('')
     const [searchQuery, setSearchQuery] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const [conversations, setConversations] = useState([])
     const [error, setError] = useState(null)
 
     useEffect(() => {
@@ -25,6 +27,16 @@ export default function ChatPage() {
         socket.on('receive_message', (newMessage) => {
             setMessages((prev) => [...prev, newMessage])
         })
+
+        const fetchConversations = async () => {
+            try {
+                const { data } = await api.get('/messages/conversations')
+                setConversations(data)
+            } catch (err) {
+                console.error('Failed to fetch conversations', err)
+            }
+        }
+        fetchConversations()
 
         return () => {
             if (socket) socket.disconnect()
@@ -76,67 +88,82 @@ export default function ChatPage() {
         setContent('')
     }
 
-    if (!user) return <p style={{ padding: '2rem' }}>Please sign in to access the chat.</p>
+    if (!user) return <p className={styles.container}>Please sign in to access the chat.</p>
 
     return (
-        <main style={{ maxWidth: '800px', margin: '0 auto', padding: '0 15px' }}>
-            <h2>Developer Lounge (Private Chat)</h2>
+        <main className={styles.container}>
+            <h2 className={styles.title}>Developer Lounge (Private Chat)</h2>
             
             {!activeChat ? (
-                <div style={{ marginBottom: '2rem' }}>
-                    <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                        <input 
-                            type="text" 
-                            value={searchQuery} 
-                            onChange={(e) => setSearchQuery(e.target.value)} 
-                            placeholder="Search by username or email..."
-                            style={{ padding: '8px', width: '300px' }}
-                        />
-                        <button type="submit" style={{ padding: '8px 16px', cursor: 'pointer' }}>
-                            Search
-                        </button>
-                    </form>
+                <>
+                    <div className={styles.searchContainer}>
+                        <form onSubmit={handleSearch} className={styles.searchForm}>
+                            <input 
+                                type="text" 
+                                value={searchQuery} 
+                                onChange={(e) => setSearchQuery(e.target.value)} 
+                                placeholder="Search by username or email..."
+                                className={styles.searchInput}
+                            />
+                            <button type="submit" className={styles.searchButton}>
+                                Search
+                            </button>
+                        </form>
 
-                    {searchResults.length > 0 && (
-                        <ul style={{ listStyle: 'none', padding: 0, border: '1px solid #ccc', borderRadius: '5px' }}>
-                            {searchResults.map((result) => (
-                                <li 
-                                    key={result._id} 
-                                    style={{ padding: '10px', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-                                >
-                                    <span><strong>{result.username}</strong> ({result.email})</span>
-                                    <button onClick={() => startChat(result)} style={{ cursor: 'pointer', padding: '5px 10px' }}>
-                                        Message
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                    {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-                </div>
+                        {searchResults.length > 0 && (
+                            <ul className={styles.searchResults}>
+                                {searchResults.map((result) => (
+                                    <li 
+                                        key={result._id} 
+                                        className={styles.searchResultItem}
+                                    >
+                                        <span><strong>{result.username}</strong> ({result.email})</span>
+                                        <button onClick={() => startChat(result)} className={styles.messageButton}>
+                                            Message
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        {error && <p className={styles.error}>{error}</p>}
+                    </div>
+                    <div>
+                        <h3 className={styles.title}>Your Conversations</h3>
+                        {conversations.length > 0 ? (
+                            <ul className={styles.searchResults}>
+                                {conversations.map((convo) => (
+                                    <li 
+                                        key={convo._id} 
+                                        className={styles.searchResultItem}
+                                        onClick={() => startChat(convo)}
+                                    >
+                                        <span><strong>{convo.username}</strong></span>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No recent conversations.</p>
+                        )}
+                    </div>
+                </>
             ) : (
-                <div style={{ border: '1px solid #ccc', display: 'flex', flexDirection: 'column', height: '60vh' }}>
-                    <div style={{ padding: '10px', backgroundColor: '#f4f4f4', borderBottom: '1px solid #ccc' }}>
+                <div className={styles.chatWindow}>
+                    <div className={styles.chatHeader}>
                         <strong>Chatting with: {receiver.username}</strong>
                         <button 
                             onClick={() => { setActiveChat(false); setReceiver(null); setMessages([]); }} 
-                            style={{ float: 'right', cursor: 'pointer' }}
+                            className={styles.closeButton}
                         >
                             Close
                         </button>
                     </div>
                     
-                    <ul style={{ flex: 1, overflowY: 'auto', padding: '15px', listStyle: 'none', margin: 0 }}>
+                    <ul className={styles.messageList}>
                         {messages.map((msg, idx) => {
                             const isMe = msg.senderId === user._id
                             return (
-                                <li key={idx} style={{ textAlign: isMe ? 'right' : 'left', marginBottom: '10px' }}>
-                                    <span style={{ 
-                                        backgroundColor: isMe ? '#d1e7dd' : '#e2e3e5', 
-                                        padding: '8px 12px', 
-                                        borderRadius: '15px', 
-                                        display: 'inline-block' 
-                                    }}>
+                                <li key={idx} className={`${styles.messageItem} ${isMe ? styles.myMessage : styles.otherMessage}`}>
+                                    <span className={styles.messageBubble}>
                                         {msg.content}
                                     </span>
                                 </li>
@@ -144,15 +171,15 @@ export default function ChatPage() {
                         })}
                     </ul>
 
-                    <form onSubmit={sendMessage} style={{ display: 'flex', padding: '10px', borderTop: '1px solid #ccc' }}>
+                    <form onSubmit={sendMessage} className={styles.messageForm}>
                         <input 
                             type="text" 
                             value={content} 
                             onChange={(e) => setContent(e.target.value)} 
                             placeholder="Type a message..." 
-                            style={{ flex: 1, padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
+                            className={styles.messageInput}
                         />
-                        <button type="submit" style={{ padding: '10px 20px', marginLeft: '10px', cursor: 'pointer' }}>
+                        <button type="submit" className={styles.sendButton}>
                             Send
                         </button>
                     </form>

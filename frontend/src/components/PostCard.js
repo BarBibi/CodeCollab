@@ -3,6 +3,7 @@
 import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
+import styles from './PostCard.module.css'
 
 export default function PostCard({ post }) {
     const { user } = useContext(AuthContext)
@@ -52,56 +53,56 @@ export default function PostCard({ post }) {
     }
 
     return (
-        <div style={{ border: '1px solid #eee', padding: '1rem', marginBottom: '1rem', borderRadius: '5px' }}>
-            <h4 style={{ margin: '0 0 10px 0' }}>{post.title}</h4>
-            <p style={{ fontSize: '0.9em', color: 'gray', margin: '0 0 10px 0' }}>
+        <div className={styles.card}>
+            <h4 className={styles.title}>{post.title}</h4>
+            <p className={styles.meta}>
                 Posted by: {post.userId?.username || 'Unknown'} | {new Date(post.createdAt).toLocaleDateString()}
             </p>
-            <pre style={{ backgroundColor: '#f4f4f4', padding: '10px', overflowX: 'auto' }}>
+            <pre className={styles.codeBlock}>
                 <code>{post.content}</code>
             </pre>
-            <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
+            <div className={styles.tags}>
                 {post.tags?.map((tag, index) => (
-                    <span key={index} style={{ backgroundColor: '#e0e0e0', padding: '2px 8px', borderRadius: '12px', fontSize: '0.8em' }}>
+                    <span key={index} className={styles.tag}>
                         #{tag}
                     </span>
                 ))}
             </div>
-            <div style={{ marginTop: '15px' }}>
+            <div className={styles.actions}>
                 <button 
                     onClick={handleLike} 
-                    style={{ marginRight: '10px', color: isLiked ? 'blue' : 'black', cursor: 'pointer' }}
+                    className={isLiked ? styles.likeButton : ''}
                 >
                     {isLiked ? 'Unlike' : 'Like'} ({likes.length})
                 </button>
-                <button onClick={toggleComments} style={{ cursor: 'pointer' }}>
+                <button onClick={toggleComments}>
                     {showComments ? 'Hide Comments' : 'Show Comments'}
                 </button>
             </div>
 
             {showComments && (
-                <div style={{ marginTop: '15px', borderTop: '1px solid #eee', paddingTop: '10px' }}>
+                <div className={styles.commentsSection}>
                     {comments.length > 0 ? (
-                        <ul style={{ listStyle: 'none', padding: 0 }}>
+                        <ul>
                             {comments.map(c => (
-                                <li key={c._id} style={{ marginBottom: '10px', fontSize: '0.9em' }}>
+                                <li key={c._id} className={styles.comment}>
                                     <strong>{c.userId?.username || 'Unknown'}:</strong> {c.content}
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p style={{ fontSize: '0.9em', color: 'gray' }}>No comments yet.</p>
+                        <p className={styles.noComments}>No comments yet.</p>
                     )}
                     
-                    <form onSubmit={handleAddComment} style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                    <form onSubmit={handleAddComment} className={styles.commentForm}>
                         <input 
                             type="text" 
                             value={newComment} 
                             onChange={(e) => setNewComment(e.target.value)} 
                             placeholder="Write a comment..." 
-                            style={{ flex: 1, padding: '5px' }}
+                            className={styles.commentInput}
                         />
-                        <button type="submit" style={{ cursor: 'pointer' }}>Post</button>
+                        <button type="submit">Post</button>
                     </form>
                 </div>
             )}

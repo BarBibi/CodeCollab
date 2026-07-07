@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import api from '../services/api'
+import styles from './PostCreator.module.css'
 
 export default function PostCreator({ onPostCreated }) {
     const [title, setTitle] = useState('')
@@ -32,23 +33,23 @@ export default function PostCreator({ onPostCreated }) {
     }
 
     return (
-        <div style={{ border: '1px solid #ccc', padding: '1rem', marginBottom: '2rem' }}>
-            <h3>Create a New Post</h3>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div className={styles.container}>
+            <h3 className={styles.title}>Create a New Post</h3>
+            {error && <p className={styles.error}>{error}</p>}
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <input 
                     type="text" 
                     placeholder="Title" 
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)} 
-                    required 
+                    required
                 />
                 <textarea 
                     placeholder="Code snippet or problem description..." 
                     value={content} 
                     onChange={(e) => setContent(e.target.value)} 
                     rows="5"
-                    required 
+                    required
                 />
                 <input 
                     type="text" 

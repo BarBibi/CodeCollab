@@ -1,0 +1,147 @@
+.card {
+  border: 1px solid var(--secondary-border);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: var(--foreground);
+}
+
+.title {
+  margin: 0 0 10px 0;
+  color: var(--text-primary);
+}
+
+.meta {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin: 0 0 10px 0;
+}
+
+.codeBlock {
+  background-color: #f4f4f4;
+  padding: 10px;
+  overflow-x: auto;
+  color: #333;
+}
+
+.tags {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  color: #333;
+}
+
+.actions {
+  margin-top: 15px;
+}
+
+.actions button {
+  margin-right: 10px;
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--secondary-border);
+  color: var(--text-primary);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.likeButton {
+  color: var(--primary-blue);
+}
+
+.commentsSection {
+  margin-top: 15px;
+  border-top: 1px solid var(--secondary-border);
+  padding-top: 10px;
+}
+
+.comment {
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  color: var(--text-primary);
+}
+
+.comment strong {
+  color: var(--text-primary);
+}
+
+.noComments {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.commentForm {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.commentInput {
+  flex: 1;
+  padding: 5px;
+  background-color: var(--foreground);
+  border: 1px solid var(--secondary-border);
+  color: var(--text-primary);
+}
+
+/* Dark mode styles */
+[data-theme='dark'] .card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+[data-theme='dark'] .title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .meta {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .codeBlock {
+  background-color: #334155;
+  color: #f0f4f8;
+}
+
+[data-theme='dark'] .tag {
+  background-color: #475569;
+  color: #f0f4f8;
+}
+
+[data-theme='dark'] .actions button {
+  color: var(--text-primary);
+  border-color: #475569;
+}
+
+[data-theme='dark'] .likeButton {
+  color: var(--primary-blue);
+}
+
+[data-theme='dark'] .commentsSection {
+  border-top-color: #334155;
+}
+
+[data-theme='dark'] .comment {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .comment strong {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .noComments {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .commentInput {
+  background-color: #334155;
+  border-color: #475569;
+  color: var(--text-primary);
+}
