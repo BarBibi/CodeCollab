@@ -16,7 +16,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
   background-color: var(--background);
 }
 
@@ -26,8 +25,8 @@
   width: 100%;
   max-width: 800px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   background-color: var(--foreground);
   padding: 120px 60px;
 }
@@ -35,9 +34,13 @@
 .intro {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
   gap: 24px;
+}
+
+.logo {
+  margin-bottom: 20px;
 }
 
 .intro h1 {
@@ -70,6 +73,7 @@
   max-width: 440px;
   gap: 16px;
   font-size: 14px;
+  justify-content: center;
 }
 
 .ctas a {
@@ -137,4 +141,8 @@ a.secondary {
   --secondary-blue: #334155;
   --secondary-blue-hover: #475569;
   --secondary-border: #475569;
+}
+
+[data-theme='dark'] .logo {
+  filter: invert(1);
 }
