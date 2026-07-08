@@ -2,6 +2,7 @@ const express = require('express')
 const {
     getPosts,
     createPost,
+    updatePost,
     deletePost,
     likePost,
     addComment,
@@ -16,6 +17,7 @@ router.route('/')
     .post(protect, createPost)
 
 router.route('/:id')
+    .put(protect, updatePost)
     .delete(protect, deletePost)
 
 router.route('/:id/like')

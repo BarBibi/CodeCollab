@@ -13,6 +13,21 @@ export default function ProfilePage() {
     const router = useRouter()
     const [posts, setPosts] = useState([])
     const [fetchError, setFetchError] = useState(null)
+    const [dateFilter, setDateFilter] = useState('')
+    const [usernameFilter, setUsernameFilter] = useState('')
+
+    const fetchPosts = async (date, username) => {
+        try {
+            const params = {}
+            if (date) params.date = date
+            if (username) params.username = username
+            const { data } = await api.get('/posts', { params })
+            setPosts(data)
+        } catch (err) {
+            setFetchError('Failed to load posts.')
+            console.error(err)
+        }
+    }
 
     useEffect(() => {
         if (!loading && !user) {
@@ -21,23 +36,21 @@ export default function ProfilePage() {
     }, [user, loading, router])
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const { data } = await api.get('/posts')
-                setPosts(data)
-            } catch (err) {
-                setFetchError('Failed to load posts.')
-                console.error(err)
-            }
-        }
-
         if (user) {
-            fetchPosts()
+            fetchPosts(dateFilter, usernameFilter)
         }
-    }, [user])
+    }, [user, dateFilter, usernameFilter])
 
     const handlePostCreated = (newPost) => {
         setPosts([newPost, ...posts])
+    }
+
+    const handlePostDeleted = (postId) => {
+        setPosts(posts.filter(p => p._id !== postId))
+    }
+
+    const handlePostUpdated = (updatedPost) => {
+        setPosts(posts.map(p => p._id === updatedPost._id ? updatedPost : p))
     }
 
     if (loading || !user) return <p>Loading...</p>
@@ -49,14 +62,34 @@ export default function ProfilePage() {
             <PostCreator onPostCreated={handlePostCreated} />
 
             <section className={styles.postsSection}>
-                <h3 className={styles.sectionTitle}>Recent Posts</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+                    <h3 className={styles.sectionTitle}>Recent Posts</h3>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <input 
+                            type="text" 
+                            placeholder="Search by username..."
+                            value={usernameFilter} 
+                            onChange={(e) => setUsernameFilter(e.target.value)} 
+                        />
+                        <input 
+                            type="date" 
+                            value={dateFilter} 
+                            onChange={(e) => setDateFilter(e.target.value)} 
+                        />
+                    </div>
+                </div>
                 {fetchError && <p className={styles.error}>{fetchError}</p>}
                 
                 {posts.length === 0 && !fetchError ? (
-                    <p className={styles.noPosts}>No posts available. Be the first to post!</p>
+                    <p className={styles.noPosts}>No posts available for the selected filters.</p>
                 ) : (
                     posts.map(post => (
-                        <PostCard key={post._id} post={post} />
+                        <PostCard 
+                            key={post._id} 
+                            post={post} 
+                            onPostDeleted={handlePostDeleted}
+                            onPostUpdated={handlePostUpdated}
+                        />
                     ))
                 )}
             </section>

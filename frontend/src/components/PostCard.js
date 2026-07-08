@@ -4,15 +4,18 @@ import { useState, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
 import styles from './PostCard.module.css'
+import PostEditor from './PostEditor'
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, onPostDeleted, onPostUpdated }) {
     const { user } = useContext(AuthContext)
     const [likes, setLikes] = useState(post.likes || [])
     const [comments, setComments] = useState([])
     const [showComments, setShowComments] = useState(false)
     const [newComment, setNewComment] = useState('')
+    const [isEditing, setIsEditing] = useState(false)
     
     const isLiked = user && likes.includes(user._id)
+    const isAuthor = user && post.userId && user._id === post.userId._id
 
     const handleLike = async () => {
         try {
@@ -52,6 +55,26 @@ export default function PostCard({ post }) {
         }
     }
 
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete this post?')) {
+            try {
+                await api.delete(`/posts/${post._id}`)
+                if (onPostDeleted) onPostDeleted(post._id)
+            } catch (error) {
+                console.error('Failed to delete post', error)
+            }
+        }
+    }
+
+    const handleUpdate = (updatedPost) => {
+        setIsEditing(false)
+        if (onPostUpdated) onPostUpdated(updatedPost)
+    }
+
+    if (isEditing) {
+        return <PostEditor post={post} onPostUpdated={handleUpdate} onCancel={() => setIsEditing(false)} />
+    }
+
     return (
         <div className={styles.card}>
             <h4 className={styles.title}>{post.title}</h4>
@@ -78,6 +101,12 @@ export default function PostCard({ post }) {
                 <button onClick={toggleComments}>
                     {showComments ? 'Hide Comments' : 'Show Comments'}
                 </button>
+                {isAuthor && (
+                    <>
+                        <button onClick={() => setIsEditing(true)}>Edit</button>
+                        <button onClick={handleDelete}>Delete</button>
+                    </>
+                )}
             </div>
 
             {showComments && (
