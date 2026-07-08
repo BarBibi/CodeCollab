@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+/**
+ * User schema.
+ * Stores authentication credentials and profile-related metadata.
+ */
 const userSchema = new mongoose.Schema(
     {
         username: {

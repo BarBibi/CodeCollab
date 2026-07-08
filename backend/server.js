@@ -1,3 +1,12 @@
+/**
+ * Backend application entry point.
+ *
+ * Responsibilities:
+ * - Load environment configuration.
+ * - Connect to MongoDB.
+ * - Register HTTP middleware and API routes.
+ * - Initialize Socket.IO for real-time chat events.
+ */
 const express = require('express')
 const http = require('http')
 const { Server } = require('socket.io')
@@ -37,7 +46,7 @@ app.use('/api/posts', postRoutes)
 app.use('/api/messages', messageRoutes)
 app.use('/api/users', userRoutes)
 
-// Socket.io Events Logic
+// Socket.IO event handlers for joining rooms and exchanging messages.
 io.on('connection', (socket) => {
     console.log(`User connected: ${socket.id}`)
 
@@ -47,7 +56,7 @@ io.on('connection', (socket) => {
         console.log(`User joined room: ${room}`)
     })
 
-    // Listen for new messages
+    // Persist and broadcast new messages to all members of the chat room.
     socket.on('send_message', async (data) => {
         const { senderId, receiverId, content, room } = data
 

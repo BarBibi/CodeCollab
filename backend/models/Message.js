@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+/**
+ * Message schema.
+ * Represents a direct chat message between two users.
+ */
 const messageSchema = new mongoose.Schema(
     {
         senderId: {

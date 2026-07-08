@@ -8,6 +8,14 @@ import PostCreator from '../../components/PostCreator'
 import PostCard from '../../components/PostCard'
 import styles from './profile.module.css'
 
+/**
+ * ProfilePage Component
+ * 
+ * This page displays the user's profile, including a welcome message, a form to create new posts,
+ * and a list of recent posts. It also provides functionality to filter posts by date and username.
+ * 
+ * @returns {JSX.Element} The user's profile page.
+ */
 export default function ProfilePage() {
     const { user, loading } = useContext(AuthContext)
     const router = useRouter()
@@ -16,6 +24,11 @@ export default function ProfilePage() {
     const [dateFilter, setDateFilter] = useState('')
     const [usernameFilter, setUsernameFilter] = useState('')
 
+    /**
+     * Fetches posts from the API based on the provided date and username filters.
+     * @param {string} date - The date to filter posts by.
+     * @param {string} username - The username to filter posts by.
+     */
     const fetchPosts = async (date, username) => {
         try {
             const params = {}
@@ -41,14 +54,26 @@ export default function ProfilePage() {
         }
     }, [user, dateFilter, usernameFilter])
 
+    /**
+     * Handles the creation of a new post by adding it to the top of the posts list.
+     * @param {object} newPost - The newly created post object.
+     */
     const handlePostCreated = (newPost) => {
         setPosts([newPost, ...posts])
     }
 
+    /**
+     * Handles the deletion of a post by removing it from the posts list.
+     * @param {string} postId - The ID of the post to be deleted.
+     */
     const handlePostDeleted = (postId) => {
         setPosts(posts.filter(p => p._id !== postId))
     }
 
+    /**
+     * Handles the update of a post by replacing it in the posts list.
+     * @param {object} updatedPost - The updated post object.
+     */
     const handlePostUpdated = (updatedPost) => {
         setPosts(posts.map(p => p._id === updatedPost._id ? updatedPost : p))
     }

@@ -1,6 +1,14 @@
 import { Mail, Linkedin, Github } from 'lucide-react'
 import styles from './Footer.module.css'
 
+/**
+ * Footer Component
+ * 
+ * This component renders the footer for the application.
+ * It includes contact links and a copyright notice.
+ * 
+ * @returns {JSX.Element} The application footer.
+ */
 export default function Footer() {
     return (
         <footer className={styles.footer}>

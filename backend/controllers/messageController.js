@@ -1,8 +1,14 @@
+/**
+ * Messaging controller.
+ * Exposes endpoints for direct-message history and conversation summaries.
+ */
 const Message = require('../models/Message')
 const User = require('../models/User')
 
-// @desc    Get chat history between current user and another user
-// @route   GET /api/messages/:userId
+/**
+ * Get chat history between the authenticated user and another user.
+ * @route GET /api/messages/:userId
+ */
 exports.getMessages = async (req, res) => {
     try {
         const { userId: otherUserId } = req.params
@@ -22,8 +28,10 @@ exports.getMessages = async (req, res) => {
     }
 }
 
-// @desc    Get all conversations for the current user
-// @route   GET /api/messages/conversations
+/**
+ * Get conversation list for the authenticated user with latest message per peer.
+ * @route GET /api/messages/conversations
+ */
 exports.getConversations = async (req, res) => {
     try {
         const currentUserId = req.user._id

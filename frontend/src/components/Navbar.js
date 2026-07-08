@@ -7,6 +7,14 @@ import { AuthContext } from '../context/AuthContext'
 import ThemeIcon from './ThemeIcon'
 import styles from './Navbar.module.css'
 
+/**
+ * Navbar Component
+ * 
+ * This component renders the main navigation bar for the application.
+ * It displays navigation links based on the user's authentication status and includes a theme toggle button.
+ * 
+ * @returns {JSX.Element} The application's navigation bar.
+ */
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext)
 

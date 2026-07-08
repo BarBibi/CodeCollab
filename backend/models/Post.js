@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+/**
+ * Post schema.
+ * Contains authored content, tags, and like relationships.
+ */
 const postSchema = new mongoose.Schema(
     {
         userId: {

@@ -1,5 +1,9 @@
 const mongoose = require('mongoose')
 
+/**
+ * Comment schema.
+ * Stores comments authored by users and linked to a post.
+ */
 const commentSchema = new mongoose.Schema(
     {
         postId: {

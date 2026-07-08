@@ -1,6 +1,14 @@
+/**
+ * Authentication middleware.
+ * Validates Bearer tokens and attaches the current user to req.user.
+ */
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
+/**
+ * Protect routes by requiring a valid JWT in the Authorization header.
+ * Expected header format: Bearer <token>
+ */
 const protect = async (req, res, next) => {
     let token
 

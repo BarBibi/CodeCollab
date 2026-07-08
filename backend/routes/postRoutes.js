@@ -1,3 +1,7 @@
+/**
+ * Post routes.
+ * Exposes feed, post management, likes, and comments endpoints.
+ */
 const express = require('express')
 const {
     getPosts,

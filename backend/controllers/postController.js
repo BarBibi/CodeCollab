@@ -1,9 +1,15 @@
+/**
+ * Post controller.
+ * Manages posts, likes, and post comments.
+ */
 const Post = require('../models/Post')
 const Comment = require('../models/Comment')
 const User = require('../models/User')
 
-// @desc    Get all posts
-// @route   GET /api/posts
+/**
+ * Get all posts with optional filters: tag, date, and username.
+ * @route GET /api/posts
+ */
 exports.getPosts = async (req, res) => {
     try {
         let query = {}
@@ -37,8 +43,10 @@ exports.getPosts = async (req, res) => {
     }
 }
 
-// @desc    Create a new post
-// @route   POST /api/posts
+/**
+ * Create a new post for the authenticated user.
+ * @route POST /api/posts
+ */
 exports.createPost = async (req, res) => {
     try {
         const { title, content, tags } = req.body
@@ -54,8 +62,10 @@ exports.createPost = async (req, res) => {
     }
 }
 
-// @desc    Update a post
-// @route   PUT /api/posts/:id
+/**
+ * Update an existing post owned by the authenticated user.
+ * @route PUT /api/posts/:id
+ */
 exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
@@ -81,8 +91,11 @@ exports.updatePost = async (req, res) => {
 }
 
 
-// @desc    Delete a post
-// @route   DELETE /api/posts/:id
+/**
+ * Delete a post owned by the authenticated user.
+ * Also deletes all comments associated with that post.
+ * @route DELETE /api/posts/:id
+ */
 exports.deletePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
@@ -105,8 +118,10 @@ exports.deletePost = async (req, res) => {
     }
 }
 
-// @desc    Like / Unlike a post
-// @route   PUT /api/posts/:id/like
+/**
+ * Toggle like status for the authenticated user on a post.
+ * @route PUT /api/posts/:id/like
+ */
 exports.likePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
@@ -131,8 +146,10 @@ exports.likePost = async (req, res) => {
     }
 }
 
-// @desc    Add a comment to a post
-// @route   POST /api/posts/:id/comments
+/**
+ * Add a new comment to a post.
+ * @route POST /api/posts/:id/comments
+ */
 exports.addComment = async (req, res) => {
     try {
         const { content } = req.body
@@ -149,8 +166,10 @@ exports.addComment = async (req, res) => {
     }
 }
 
-// @desc    Get comments for a post
-// @route   GET /api/posts/:id/comments
+/**
+ * Get all comments for a post in chronological order.
+ * @route GET /api/posts/:id/comments
+ */
 exports.getComments = async (req, res) => {
     try {
         const comments = await Comment.find({ postId: req.params.id })

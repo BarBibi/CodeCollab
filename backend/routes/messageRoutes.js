@@ -1,3 +1,7 @@
+/**
+ * Message routes.
+ * Exposes protected endpoints for conversations and message history.
+ */
 const express = require('express')
 const { getMessages, getConversations } = require('../controllers/messageController')
 const { protect } = require('../middlewares/authMiddleware')

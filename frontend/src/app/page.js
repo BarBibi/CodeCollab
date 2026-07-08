@@ -2,6 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from './page.module.css'
 
+/**
+ * HomePage Component
+ * 
+ * This is the main landing page of the CodeCollab application.
+ * It provides a welcoming message and navigation links for users to sign in or sign up.
+ * 
+ * @returns {JSX.Element} The rendered homepage with a logo, welcome text, and call-to-action buttons.
+ */
 export default function HomePage() {
     return (
         <main className={styles.page}>

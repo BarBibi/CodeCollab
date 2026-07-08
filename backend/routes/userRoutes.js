@@ -1,3 +1,7 @@
+/**
+ * User routes.
+ * Exposes protected user search endpoints.
+ */
 const express = require('express')
 const { searchUsers } = require('../controllers/userController')
 const { protect } = require('../middlewares/authMiddleware')

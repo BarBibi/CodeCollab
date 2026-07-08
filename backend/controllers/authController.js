@@ -1,13 +1,26 @@
+/**
+ * Authentication controller.
+ * Handles user registration and login flows.
+ */
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+/**
+ * Generate a signed JWT for an authenticated user.
+ * @param {string|import('mongoose').Types.ObjectId} userId - MongoDB user identifier.
+ * @returns {string} Signed JWT token.
+ */
 const generateToken = (userId) => {
     return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
         expiresIn: '30d',
     })
 }
 
+/**
+ * Register a new user account.
+ * @route POST /api/auth/signup
+ */
 exports.signup = async (req, res) => {
     try {
         const { username, email, password } = req.body
@@ -37,6 +50,10 @@ exports.signup = async (req, res) => {
     }
 }
 
+/**
+ * Authenticate an existing user and return profile + token.
+ * @route POST /api/auth/signin
+ */
 exports.signin = async (req, res) => {
     try {
         const { email, password } = req.body

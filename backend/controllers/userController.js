@@ -1,5 +1,13 @@
+/**
+ * User controller.
+ * Provides user discovery endpoints used by chat features.
+ */
 const User = require('../models/User')
 
+/**
+ * Search users by username or email, excluding the authenticated user.
+ * @route GET /api/users?search=<term>
+ */
 exports.searchUsers = async (req, res) => {
     try {
         const keyword = req.query.search

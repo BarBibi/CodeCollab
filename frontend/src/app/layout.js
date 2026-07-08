@@ -8,6 +8,10 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+/**
+ * Metadata for the application.
+ * @type {import('next').Metadata}
+ */
 export const metadata = {
     title: 'CodeCollab',
     description: 'A social network for developers',
@@ -16,6 +20,16 @@ export const metadata = {
     },
 }
 
+/**
+ * RootLayout Component
+ * 
+ * This is the root layout for the entire application. It wraps all pages with necessary providers
+ * (AuthProvider, ThemeProvider) and common UI elements like the Navbar and Footer.
+ * 
+ * @param {object} props - The properties for the component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ * @returns {JSX.Element} The root layout structure.
+ */
 export default function RootLayout({ children }) {
     return (
         <html lang="en">

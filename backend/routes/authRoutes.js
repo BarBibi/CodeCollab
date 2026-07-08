@@ -1,3 +1,7 @@
+/**
+ * Authentication routes.
+ * Exposes public signup and signin endpoints.
+ */
 const express = require('express')
 const { signup, signin } = require('../controllers/authController')
 

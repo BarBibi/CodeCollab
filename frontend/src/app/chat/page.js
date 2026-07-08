@@ -8,6 +8,14 @@ import styles from './chat.module.css'
 
 let socket
 
+/**
+ * ChatPage Component
+ * 
+ * This page provides a real-time chat interface for users. It allows users to search for other users,
+ * start new conversations, and view their existing conversations.
+ * 
+ * @returns {JSX.Element} The chat page interface.
+ */
 export default function ChatPage() {
     const { user } = useContext(AuthContext)
     const [activeChat, setActiveChat] = useState(false)
@@ -43,6 +51,10 @@ export default function ChatPage() {
         }
     }, [user])
 
+    /**
+     * Handles the search for users based on the search query.
+     * @param {React.FormEvent} e - The form event.
+     */
     const handleSearch = async (e) => {
         e.preventDefault()
         if (!searchQuery.trim()) return
@@ -56,6 +68,10 @@ export default function ChatPage() {
         }
     }
 
+    /**
+     * Starts a chat with the selected user.
+     * @param {object} selectedUser - The user to start a chat with.
+     */
     const startChat = async (selectedUser) => {
         setError(null)
         try {
@@ -72,6 +88,10 @@ export default function ChatPage() {
         }
     }
 
+    /**
+     * Sends a new message to the current receiver.
+     * @param {React.FormEvent} e - The form event.
+     */
     const sendMessage = (e) => {
         e.preventDefault()
         if (!content.trim() || !activeChat) return

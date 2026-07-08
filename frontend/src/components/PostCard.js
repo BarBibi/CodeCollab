@@ -6,6 +6,18 @@ import api from '../services/api'
 import styles from './PostCard.module.css'
 import PostEditor from './PostEditor'
 
+/**
+ * PostCard Component
+ * 
+ * This component displays a single post, including its title, content, author, and tags.
+ * It provides functionality for liking, commenting on, editing, and deleting the post.
+ * 
+ * @param {object} props - The properties for the component.
+ * @param {object} props.post - The post object to be displayed.
+ * @param {(postId: string) => void} props.onPostDeleted - A callback function to be called when the post is deleted.
+ * @param {(updatedPost: object) => void} props.onPostUpdated - A callback function to be called when the post is updated.
+ * @returns {JSX.Element} A card displaying the post's information and actions.
+ */
 export default function PostCard({ post, onPostDeleted, onPostUpdated }) {
     const { user } = useContext(AuthContext)
     const [likes, setLikes] = useState(post.likes || [])
