@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import Button from '../components/Button'
 
@@ -11,6 +11,7 @@ const SignUpScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Create an Account</Text>
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -24,6 +25,7 @@ const SignUpScreen = () => {
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
+        keyboardType="email-address"
       />
       <TextInput
         style={styles.input}
@@ -42,13 +44,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
   },
   input: {
-    height: 40,
-    borderColor: 'gray',
+    height: 50,
+    backgroundColor: 'white',
+    borderColor: '#ddd',
     borderWidth: 1,
+    borderRadius: 10,
     marginBottom: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
 })
 
