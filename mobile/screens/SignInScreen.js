@@ -3,6 +3,13 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { AuthContext } from '../context/AuthContext'
 import Button from '../components/Button'
 
+/**
+ * The screen where users can sign in to their accounts.
+ * It provides a form with email and password fields, and a link to the sign-up screen.
+ * @param {object} props - The properties for the component.
+ * @param {object} props.navigation - The navigation object provided by React Navigation.
+ * @returns {JSX.Element} The sign-in screen component.
+ */
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')

@@ -7,6 +7,11 @@ import { Ionicons } from '@expo/vector-icons'
 
 const Tab = createBottomTabNavigator()
 
+/**
+ * The main tab navigator for the application.
+ * It includes tabs for the home screen, profile, and chat.
+ * @returns {JSX.Element} The bottom tab navigator.
+ */
 const TabNavigator = () => {
   return (
     <Tab.Navigator

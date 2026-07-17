@@ -3,6 +3,11 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import Button from '../components/Button'
 
+/**
+ * The screen where new users can create an account.
+ * It provides a form with fields for a username, email, and password.
+ * @returns {JSX.Element} The sign-up screen component.
+ */
 const SignUpScreen = () => {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')

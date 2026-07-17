@@ -3,6 +3,11 @@ import { View, Text } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import Button from '../components/Button'
 
+/**
+ * The main screen of the application, displayed after the user logs in.
+ * It shows a welcome message and a logout button.
+ * @returns {JSX.Element} The home screen component.
+ */
 const HomeScreen = () => {
   const { user, logout } = useContext(AuthContext)
 

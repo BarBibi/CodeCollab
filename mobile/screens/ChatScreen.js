@@ -3,6 +3,13 @@ import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'r
 import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
 
+/**
+ * The main screen for the chat feature.
+ * It displays a list of recent conversations and allows users to search for other users to start new chats.
+ * @param {object} props - The properties for the component.
+ * @param {object} props.navigation - The navigation object provided by React Navigation.
+ * @returns {JSX.Element} The chat screen component.
+ */
 const ChatScreen = ({ navigation }) => {
   const { user } = useContext(AuthContext)
   const [searchQuery, setSearchQuery] = useState('')

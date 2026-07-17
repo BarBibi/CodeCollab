@@ -9,6 +9,13 @@ import { AuthContext } from '../context/AuthContext'
 
 const Stack = createNativeStackNavigator()
 
+/**
+ * The main navigator for the application.
+ * It handles the navigation flow based on the user's authentication status.
+ * If the user is authenticated, it displays the main app content using a tab navigator.
+ * Otherwise, it displays the sign-in and sign-up screens.
+ * @returns {JSX.Element} The main navigation component.
+ */
 const AppNavigator = () => {
   const { user, loading } = useContext(AuthContext)
 

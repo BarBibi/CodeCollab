@@ -8,14 +8,15 @@ CodeCollab is a full-stack developer community app where users can:
 - search for other users
 - chat in real time through private conversations
 
-The project is split into two apps:
+The project is split into three apps:
 
 - `frontend/`: Next.js client application
 - `backend/`: Express + Socket.IO API server connected to MongoDB
+- `mobile/`: React Native (Expo) mobile application
 
 ## Tech Stack
 
-### Frontend
+### Frontend (Web)
 
 - Next.js 16
 - React 18
@@ -30,6 +31,13 @@ The project is split into two apps:
 - JWT authentication
 - Socket.IO
 - bcryptjs
+
+### Mobile
+
+- React Native (Expo)
+- React Navigation
+- Axios
+- Socket.IO Client
 
 ## Project Structure
 
@@ -47,6 +55,14 @@ CodeCollab/
     src/components/
     src/context/
     src/services/
+  mobile/
+    assets/
+    components/
+    context/
+    navigation/
+    screens/
+    services/
+    App.js
 ```
 
 ## Features
@@ -73,6 +89,7 @@ Install:
 - Node.js 18+ (Node.js 20+ recommended)
 - npm
 - MongoDB (local or cloud, e.g., MongoDB Atlas)
+- Expo Go app on your mobile device (for running the mobile app)
 
 ## Environment Variables
 
@@ -97,6 +114,16 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
 ```
 
+### 3) Mobile environment
+
+Create `mobile/.env`:
+
+```env
+EXPO_PUBLIC_API_URL=http://<your-local-ip>:5000/api
+EXPO_PUBLIC_SOCKET_URL=http://<your-local-ip>:5000
+```
+Replace `<your-local-ip>` with your computer's local IP address.
+
 ## Installation
 
 From the project root:
@@ -106,6 +133,9 @@ cd backend
 npm install
 
 cd ../frontend
+npm install
+
+cd ../mobile
 npm install
 ```
 
@@ -125,10 +155,18 @@ cd frontend
 npm run dev
 ```
 
+Run mobile (Terminal 3):
+
+```bash
+cd mobile
+npm start
+```
+
 Then open:
 
 - Frontend: `http://localhost:3000`
 - Backend API base: `http://localhost:5000/api`
+- Mobile: Scan the QR code with the Expo Go app.
 
 ## Available Scripts
 
@@ -143,6 +181,13 @@ Then open:
 - `npm run build` - Build production app
 - `npm start` - Run production build
 - `npm run lint` - Run lint checks
+
+### Mobile (`mobile/package.json`)
+
+- `npm start` - Start Expo dev server
+- `npm run android` - Start Expo dev server for Android
+- `npm run ios` - Start Expo dev server for iOS
+- `npm run web` - Start Expo dev server for web
 
 ## API Overview
 
@@ -196,20 +241,28 @@ The frontend stores:
 - token in localStorage key `token`
 - user object in localStorage key `user`
 
+The mobile app stores:
+
+- token in AsyncStorage key `token`
+- user object in AsyncStorage key `user`
+
 ## Troubleshooting
 
 - If API calls fail from frontend:
   - verify `NEXT_PUBLIC_API_URL` in `frontend/.env.local`
   - verify backend is running on the expected port
+- If API calls fail from mobile:
+  - verify `EXPO_PUBLIC_API_URL` in `mobile/.env` and that it uses your local IP address
+  - ensure your mobile device is on the same Wi-Fi network as your computer
 - If chat does not connect:
-  - verify `NEXT_PUBLIC_SOCKET_URL` points to backend origin
+  - verify `NEXT_PUBLIC_SOCKET_URL` (web) or `EXPO_PUBLIC_SOCKET_URL` (mobile) points to the correct backend origin
 - If MongoDB connection fails:
   - verify `MONGO_URI` in `backend/.env`
   - ensure database network access is allowed (Atlas users)
 
 ## Future Improvements
 
-- Add automated tests (backend API + frontend UI)
+- Add automated tests (backend API + frontend UI + mobile)
 - Add refresh token flow and secure cookie auth
 - Add Docker setup for one-command startup
 - Add CI pipeline for lint/build/test

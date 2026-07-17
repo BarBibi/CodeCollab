@@ -5,6 +5,11 @@ import ConversationScreen from '../screens/ConversationScreen'
 
 const Stack = createNativeStackNavigator()
 
+/**
+ * A stack navigator for the chat feature.
+ * It includes screens for the list of chats and individual conversations.
+ * @returns {JSX.Element} The chat stack navigator.
+ */
 const ChatStack = () => {
   return (
     <Stack.Navigator>

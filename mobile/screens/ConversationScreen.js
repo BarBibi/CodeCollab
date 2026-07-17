@@ -1,16 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
 import { io } from 'socket.io-client'
+import { useHeaderHeight } from '@react-navigation/elements'
 
 let socket
 
+/**
+ * A screen that displays a conversation between two users.
+ * It shows the message history and allows the user to send new messages in real-time using Socket.IO.
+ * @param {object} props - The properties for the component.
+ * @param {object} props.route - The route object provided by React Navigation, containing the receiver's information.
+ * @returns {JSX.Element} The conversation screen component.
+ */
 const ConversationScreen = ({ route }) => {
   const { receiver } = route.params
   const { user } = useContext(AuthContext)
   const [messages, setMessages] = useState([])
   const [content, setContent] = useState('')
+  const flatListRef = useRef()
+  const headerHeight = useHeaderHeight()
 
   useEffect(() => {
     if (!user) return
@@ -25,7 +35,7 @@ const ConversationScreen = ({ route }) => {
     }
     fetchMessages()
 
-    socket = io('http://localhost:5000') // Replace with your backend URL
+    socket = io(process.env.EXPO_PUBLIC_SOCKET_URL)
     const room = [user._id, receiver._id].sort().join('_')
     socket.emit('join_chat', room)
 
@@ -52,31 +62,40 @@ const ConversationScreen = ({ route }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={messages}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={[styles.messageBubble, item.senderId === user._id ? styles.myMessage : styles.otherMessage]}>
-            <Text style={item.senderId === user._id ? styles.myMessageText : styles.otherMessageText}>
-              {item.content}
-            </Text>
-          </View>
-        )}
-        inverted
-      />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={content}
-          onChangeText={setContent}
-          placeholder="Type a message..."
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView 
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={headerHeight}
+      >
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={[styles.messageBubble, item.senderId === user._id ? styles.myMessage : styles.otherMessage]}>
+              <Text style={item.senderId === user._id ? styles.myMessageText : styles.otherMessageText}>
+                {item.content}
+              </Text>
+            </View>
+          )}
+          onContentSizeChange={() => flatListRef.current.scrollToEnd({ animated: true })}
+          onLayout={() => flatListRef.current.scrollToEnd({ animated: true })}
+          contentContainerStyle={{ paddingBottom: 20 }}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={content}
+            onChangeText={setContent}
+            placeholder="Type a message..."
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   )
 }
 

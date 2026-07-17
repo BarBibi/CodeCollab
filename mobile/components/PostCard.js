@@ -4,6 +4,15 @@ import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
 import { useNavigation } from '@react-navigation/native'
 
+/**
+ * A component that displays a single post in a card format.
+ * It shows the post's title, metadata, content, and tags.
+ * If the current user is the author of the post, it also displays "Edit" and "Delete" buttons.
+ * @param {object} props - The properties for the component.
+ * @param {object} props.post - The post object to display.
+ * @param {(postId: string) => void} props.onPostDeleted - A callback function to be called when the post is deleted.
+ * @returns {JSX.Element} A card component representing a post.
+ */
 const PostCard = ({ post, onPostDeleted }) => {
   const { user } = useContext(AuthContext)
   const navigation = useNavigation()

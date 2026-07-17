@@ -1,23 +1,36 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react'
-import { View, Text, FlatList, StyleSheet, TextInput, RefreshControl } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TextInput, RefreshControl, TouchableOpacity, Platform } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import api from '../services/api'
 import PostCard from '../components/PostCard'
 import PostCreator from '../components/PostCreator'
 import { useFocusEffect } from '@react-navigation/native'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
+/**
+ * The user's profile screen.
+ * It displays a welcome message, a form to create new posts, and a list of recent posts.
+ * It also provides functionality to filter posts by username and date.
+ * @returns {JSX.Element} The profile screen component.
+ */
 const ProfileScreen = () => {
   const { user } = useContext(AuthContext)
   const [posts, setPosts] = useState([])
   const [fetchError, setFetchError] = useState(null)
-  const [dateFilter, setDateFilter] = useState('')
+  const [dateFilter, setDateFilter] = useState(null)
+  const [showDatePicker, setShowDatePicker] = useState(false)
   const [usernameFilter, setUsernameFilter] = useState('')
   const [refreshing, setRefreshing] = useState(false)
 
   const fetchPosts = async () => {
     try {
       const params = {}
-      if (dateFilter) params.date = dateFilter
+      if (dateFilter) {
+        const year = dateFilter.getFullYear()
+        const month = ('0' + (dateFilter.getMonth() + 1)).slice(-2)
+        const day = ('0' + dateFilter.getDate()).slice(-2)
+        params.date = `${year}-${month}-${day}`
+      }
       if (usernameFilter) params.username = usernameFilter
       const { data } = await api.get('/posts', { params })
       setPosts(data)
@@ -48,6 +61,12 @@ const ProfileScreen = () => {
     setPosts(posts.filter(p => p._id !== postId))
   }
 
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || dateFilter
+    setShowDatePicker(Platform.OS === 'ios')
+    setDateFilter(currentDate)
+  }
+
   if (!user) return <Text>Loading...</Text>
 
   return (
@@ -67,13 +86,24 @@ const ProfileScreen = () => {
                 value={usernameFilter}
                 onChangeText={setUsernameFilter}
               />
-              <TextInput
-                style={styles.filterInput}
-                placeholder="YYYY-MM-DD"
-                value={dateFilter}
-                onChangeText={setDateFilter}
-              />
+              <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateButton}>
+                <Text style={styles.dateButtonText}>{dateFilter ? dateFilter.toLocaleDateString() : 'Select Date'}</Text>
+              </TouchableOpacity>
             </View>
+            {dateFilter && (
+              <TouchableOpacity onPress={() => setDateFilter(null)} style={styles.clearButton}>
+                <Text style={styles.clearButtonText}>Clear Date</Text>
+              </TouchableOpacity>
+            )}
+            {showDatePicker && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={dateFilter || new Date()}
+                mode="date"
+                display="default"
+                onChange={onDateChange}
+              />
+            )}
             {fetchError && <Text style={styles.error}>{fetchError}</Text>}
             <Text style={styles.listHeader}>Recent Posts</Text>
           </>
@@ -108,6 +138,25 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 5,
     width: '48%',
+  },
+  dateButton: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 8,
+    borderRadius: 5,
+    width: '48%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dateButtonText: {
+    color: '#333',
+  },
+  clearButton: {
+    alignSelf: 'flex-end',
+    marginBottom: 10,
+  },
+  clearButtonText: {
+    color: '#007BFF',
   },
   error: {
     color: 'red',

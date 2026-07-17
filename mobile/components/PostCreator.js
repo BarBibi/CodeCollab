@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, Text } from 'react-native'
 import api from '../services/api'
 import Button from './Button'
 
+/**
+ * A component that provides a form for creating new posts.
+ * It includes fields for a title, content, and tags.
+ * @param {object} props - The properties for the component.
+ * @param {(newPost: object) => void} props.onPostCreated - A callback function to be called when a new post is successfully created.
+ * @returns {JSX.Element} A form for creating a new post.
+ */
 const PostCreator = ({ onPostCreated }) => {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
